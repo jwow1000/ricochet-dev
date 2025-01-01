@@ -63,24 +63,31 @@ def create_composition():
     sequencer = DMXSequencer()
     
     # Helper function to convert beats to ticks
-    def beats_to_ticks(beats, bpm=120):
+    def beats_to_ticks(beats, bpm=90):
         return int((beats * 60 * sequencer.ticks_per_second) / bpm)
     
     # Example events
     # Flash light 1 at full brightness
-    sequencer.add_event(0, {1: 255})
+    # sequencer.add_event(0, {1: 255})
     
     # Set multiple lights at once
-    sequencer.add_event(50, {
-        1: 128,
-        2: 128
-    })
+    # sequencer.add_event(50, {
+    #     1: 128,
+    #     2: 128
+    # })
     
     # Using musical timing
-    sequencer.add_event(
-        beats_to_ticks(4),  # On beat 4
-        {1: 255, 2: 255}    # Full brightness on channels 1 and 2
-    )
+    # sequencer.add_event(
+    #     beats_to_ticks(4),  # On beat 4
+    #     {1: 255, 2: 255}    # Full brightness on channels 1 and 2
+    # )
+
+    for i in range(100):
+        ramp = (i/100) * 255
+        sequencer.add_event(
+            i,
+            {1: ramp}
+        )
     
     return sequencer
 
