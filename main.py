@@ -56,7 +56,7 @@ def run_dmx_loop(loop_duration, tick_interval):
             if progress > 6:
                 short_attack_decay.trigger = 0
 
-if __name__ == "__main__":
+while True:
   
     loop_duration = 240  # Total duration of the loop in seconds (4 minutes)
     tick_interval = 0.03  # Tick interval in seconds (30ms)
