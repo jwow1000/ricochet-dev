@@ -6,41 +6,7 @@ from ola.ClientWrapper import ClientWrapper
 from dataclasses import dataclass
 from typing import List, Callable
 
-def dmx_sent(state):
-    if not state.Succeeded():
-        print('Error: DMX send failed')
-    wrapper.Stop()
-
-def send_dmx(cli, channels):
-    
-    # Update the channels you want to modify
-    for channel, value in channels.items():
-        data[channel - 1] = value  # DMX is 1-indexed, so adjust to 0-indexed
-
-    # Send the DMX data
-    cli.SendDmx(universe, data, DmxSent)  
-
-# Create a new client wrapper
-wrapper = ClientWrapper()
-
-# Get the client
-client = wrapper.Client()
-
-# Set your universe number (usually 1)
-universe = 1
-
-# set dmx channels, 4 for ricochet
-DMX_CHANNELS = 4
-
-# create the data array
-data = array('B', [0] * DMX_CHANNELS)
-
 @dataclass
-class LightEvent:
-    tick: int
-    channels: List[int]
-    values: List[int]
-
 class DMXSequencer:
     def __init__(self):
         self.current_tick = 0
@@ -72,35 +38,7 @@ class DMXSequencer:
         """
         self.events.append((tick, channels))
     
-    # Approach 1: Simple tick-based system
-    def run_simple(self):
-        while True:
-            current_events = [e for e in self.events if e.tick == self.current_tick]
-            
-            if current_events:
-                data = array('B', [0] * 512)
-                for event in current_events:
-                    for channel, value in zip(event.channels, event.values):
-                        data[channel-1] = value
-                self.client.SendDmx(self.universe, data, self.dmx_sent)
-            
-            time.sleep(1/self.ticks_per_second)
-            self.current_tick += 1
-            if self.current_tick >= self.composition_length:
-                self.current_tick = 0
-
-    # Approach 2: Time-based system
-    def run_time_based(self):
-        start_time = time.time()
-        while True:
-            elapsed_ticks = int((time.time() - start_time) * self.ticks_per_second)
-            current_tick = elapsed_ticks % self.composition_length
-            
-            if current_tick != self.current_tick:
-                self.current_tick = current_tick
-                # Process events as above...
-
-    # Approach 3: Async system with precise timing
+    #Async system with precise timing
     async def run_async(self):
         while True:
             tick_start = time.time()
