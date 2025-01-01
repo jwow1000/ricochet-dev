@@ -9,15 +9,13 @@ def DmxSent(state):
     wrapper.Stop()
 
 def SendDMX(cli, channels):
-    # Create a DMX buffer of 512 bytes (default for DMX512)
-    dmx_data = [0] * DMX_CHANNELS
-
+    
     # Update the channels you want to modify
     for channel, value in channels.items():
-        dmx_data[channel - 1] = value  # DMX is 1-indexed, so adjust to 0-indexed
+        data[channel - 1] = value  # DMX is 1-indexed, so adjust to 0-indexed
 
     # Send the DMX data
-    cli.SendDmx(universe, dmx_data, DmxSent)  
+    cli.SendDmx(universe, data, DmxSent)  
 
 # Set your universe number (usually 1)
 universe = 1
@@ -34,31 +32,35 @@ wrapper = ClientWrapper()
 # Get the client
 client = wrapper.Client()
 
-# Start the main loop
-wrapper.Run()
+# define global ticks
+ticks = 0
 
-short_attack_decay = ADSR(attack=1, decay=20, sustain=0, release=20, max_value=127)
+short_attack_decay = ADSR(attack=1, decay=20, sustain=0, release=20, max_value=127, tick=1)
 
 def run_dmx_loop(loop_duration, tick_interval):
-    start_time = time.time()
-    while time.time() - start_time < loop_duration:
-        progress = time.time() - start_time
+    
+    while ticks < loop_duration:
         print(f"tick time: {progress}") 
         # movement 1 first 8 seconds
-        while progress >= 0 and progress < 8:
+        while ticks >= 0 and ticks < 200:
             short_attack_decay.trigger( 1 )
             value = short_attack_decay.process()
             channels = {1: value}
             SendDMX(client, channels)
-            print(f"Envelope Value: {channels}") 
+            print(f"Envelope Value: {channels, progress}") 
             time.sleep(tick_interval)  # Sleep for the interval (30ms in this case)
-            
+            ticks = ticks+1
+
             if progress > 6:
                 short_attack_decay.trigger = 0
 
 while True:
-  
-    loop_duration = 240  # Total duration of the loop in seconds (4 minutes)
+    print(f"is this working?")
+    loop_duration = 500  # Total duration of the loop in seconds (4 minutes)
     tick_interval = 0.03  # Tick interval in seconds (30ms)
     
     run_dmx_loop(loop_duration, tick_interval)
+
+
+# Start the main loop
+wrapper.Run()
