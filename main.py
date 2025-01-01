@@ -52,12 +52,13 @@ def run_dmx_loop(loop_duration, tick_interval):
             SendDMX(client, channels)
             print(f"Envelope Value: {channels}") 
             time.sleep(tick_interval)  # Sleep for the interval (30ms in this case)
+            
+            if progress > 6:
+                short_attack_decay.trigger = 0
 
 if __name__ == "__main__":
-    
-    adsr = ADSR(attack=100, decay=50, sustain=0.5, release=80, max_value=255)
-    gate = 1  # Trigger the envelope
+  
     loop_duration = 240  # Total duration of the loop in seconds (4 minutes)
     tick_interval = 0.03  # Tick interval in seconds (30ms)
     
-    run_dmx_loop(adsr, gate, loop_duration, tick_interval)
+    run_dmx_loop(loop_duration, tick_interval)
