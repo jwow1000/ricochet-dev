@@ -72,7 +72,6 @@ def run_adsr_example():
         if time.time() > 5:
             gate = 0  # Release the gate after 5 seconds
 
-run_adsr_example()
 
     
 
