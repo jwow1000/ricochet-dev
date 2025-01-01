@@ -47,6 +47,7 @@ class DMXSequencer:
             for event_tick, channels in self.events:
                 if event_tick == self.current_tick:
                     self.send_dmx(channels)
+                    print(f"channels: {channels}")
             
             # Increment tick and wrap around
             self.current_tick = (self.current_tick + 1) % self.composition_length
@@ -58,6 +59,7 @@ class DMXSequencer:
 
 # Example usage with easy-to-read composition definition
 def create_composition():
+    print(f"hello?")
     sequencer = DMXSequencer()
     
     # Helper function to convert beats to ticks
@@ -83,7 +85,6 @@ def create_composition():
     return sequencer
 
 if __name__ == "__main__":
-    print(f"hello?")
     sequencer = create_composition()
     # Choose your preferred running method:
     # 1. Simple:
