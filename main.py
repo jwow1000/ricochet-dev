@@ -89,9 +89,9 @@ def create_composition():
             {1: int(ramp)}
         )
     for i in range(100):
-        ramp = 255 - ((i/100) * 255)
+        ramp = ((i/100) * 255)
         sequencer.add_event(
-            i,
+            i + 50,
             {2: int(ramp)}
         )
     
