@@ -83,6 +83,7 @@ def create_composition():
     return sequencer
 
 if __name__ == "__main__":
+    print(f"hello?")
     sequencer = create_composition()
     # Choose your preferred running method:
     # 1. Simple:
