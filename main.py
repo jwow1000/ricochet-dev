@@ -8,15 +8,25 @@ def DmxSent(state):
         print('Error: DMX send failed')
     wrapper.Stop()
 
-def SendDMX():
-    # Send the data
-    client.SendDmx(universe, data, DmxSent)
+def SendDMX(cli, channels):
+    # Create a DMX buffer of 512 bytes (default for DMX512)
+    dmx_data = [0] * DMX_CHANNELS
+
+    # Update the channels you want to modify
+    for channel, value in channels.items():
+        dmx_data[channel - 1] = value  # DMX is 1-indexed, so adjust to 0-indexed
+
+    # Send the DMX data
+    cli.SendDmx(universe, dmx_data, DmxSent)  
 
 # Set your universe number (usually 1)
 universe = 1
 
+# set dmx channels, 4 for ricochet
+DMX_CHANNELS = 4
+
 # create the data array
-data = array('B', [0] * 512)
+data = array('B', [0] * DMX_CHANNELS)
 
 # Create a new client wrapper
 wrapper = ClientWrapper()
@@ -24,22 +34,27 @@ wrapper = ClientWrapper()
 # Get the client
 client = wrapper.Client()
 
-
-
 # Start the main loop
 wrapper.Run()
 
-def run_dmx_loop(adrs, gate, loop_duration, tick_interval):
+short_attack_decay = ADSR(attack=1, decay=20, sustain=0, release=20, max_value=127)
+
+def run_dmx_loop(loop_duration, tick_interval):
     start_time = time.time()
     while time.time() - start_time < loop_duration:
-        adrs.trigger(gate)
-        current_value = adrs.process()
-        # Send the DMX data
-        SendDMX()
-        print(f"Envelope Value: {current_value}")  # Update DMX value here
-        time.sleep(tick_interval)  # Sleep for the interval (30ms in this case)
+        progress = time.time() - start_time
+
+        # movement 1 first 8 seconds
+        while progress >= 0 and progress < 8:
+            short_attack_decay.trigger( 1 )
+            value = short_attack_decay.process()
+            channels = {1: value}
+            SendDMX(client, channels)
+            print(f"Envelope Value: {channels}") 
+            time.sleep(tick_interval)  # Sleep for the interval (30ms in this case)
 
 if __name__ == "__main__":
+    
     adsr = ADSR(attack=100, decay=50, sustain=0.5, release=80, max_value=255)
     gate = 1  # Trigger the envelope
     loop_duration = 240  # Total duration of the loop in seconds (4 minutes)
