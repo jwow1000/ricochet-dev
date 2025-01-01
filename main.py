@@ -43,7 +43,7 @@ def run_dmx_loop(loop_duration, tick_interval):
     start_time = time.time()
     while time.time() - start_time < loop_duration:
         progress = time.time() - start_time
-
+        print(f"tick time: {progress}") 
         # movement 1 first 8 seconds
         while progress >= 0 and progress < 8:
             short_attack_decay.trigger( 1 )
