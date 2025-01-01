@@ -59,7 +59,7 @@ class DMXSequencer:
 
 # Example usage with easy-to-read composition definition
 def create_composition():
-    print(f"hello?")
+    # print(f"hello?")
     sequencer = DMXSequencer()
     
     # Helper function to convert beats to ticks
@@ -87,6 +87,12 @@ def create_composition():
         sequencer.add_event(
             i,
             {1: int(ramp)}
+        )
+    for i in range(100):
+        ramp = 255 - ((i/100) * 255)
+        sequencer.add_event(
+            i,
+            {2: int(ramp)}
         )
     
     return sequencer
