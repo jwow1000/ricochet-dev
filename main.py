@@ -1,5 +1,5 @@
 from array import array
-from compose_utils import line
+from compose_utils import line, peek_ad
 import time
 import asyncio
 from ola.ClientWrapper import ClientWrapper
@@ -59,33 +59,23 @@ class DMXSequencer:
 
 # Example usage with easy-to-read composition definition
 def create_composition():
-    # print(f"hello?")
+    # create the sequecer
     sequencer = DMXSequencer()
     
+    # variable to track time (in beats)
+    time_tracker = 0.0
     
-    
-    # Example events
-    # Flash light 1 at full brightness
-    # sequencer.add_event(0, {1: 255})
-    
-    # Set multiple lights at once
-    # sequencer.add_event(50, {
-    #     1: 128,
-    #     2: 128
-    # })
-    
-    # Using musical timing
-    # sequencer.add_event(
-    #     beats_to_ticks(4),  # On beat 4
-    #     {1: 255, 2: 255}    # Full brightness on channels 1 and 2
-    # )
-    def linear_ad( v ):
-        return 1 - v
-    
-    line(sequencer, 4, 0, linear_ad, 1)
-    line(sequencer, 4, 1, linear_ad, 2)
-    line(sequencer, 4, 2, linear_ad, 3)
-    line(sequencer, 4, 3, linear_ad, 4)
+    ########### begin composition ############
+    ##### all off for 10 seconds( 15 beats )
+    time_tracker += 15
+
+    ##### see peek cycle 14 seconds(21 beats) 
+    line(sequencer, 1, time_tracker, peek_ad, 1)
+    line(sequencer, 1, time_tracker+5.25, peek_ad, 2)
+    line(sequencer, 1, time_tracker+10.50, peek_ad, 3)
+    line(sequencer, 1, time_tracker+15.75, peek_ad, 4)
+
+    time_tracker += 8
 
 
     # for i in range( beats_to_ticks(4) ):

@@ -18,3 +18,19 @@ def line( seq, beats, offset, algo, channel ):
             i + offset_ticks,
             {channel: int(ramp)}
         )
+
+# # # # # # algos to use with the line function
+# simple fastest attack possible, with linear out (use for test)
+def linear_ad( v ):
+    return 1 - v
+
+# peek algo, 50% fastest attack, taper off
+def peek_ad( v ):
+   
+    if v == 0:
+        return 0.5
+    elif v > 0 :
+        # ramp down
+        return 0.2 - (v / 0.2) 
+    
+
