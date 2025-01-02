@@ -1,5 +1,5 @@
 from array import array
-from compose_utils import line, peek_ad, sparkle20
+from compose_utils import line, peek_ad, sparkle20, two_bumps
 import time
 import asyncio
 from ola.ClientWrapper import ClientWrapper
@@ -78,24 +78,31 @@ def create_composition():
     # time_tracker += 21
     
     ##### random no strobe 12 seconds(18 beats)
-    line(sequencer, 18, time_tracker, sparkle20, 1)
-    line(sequencer, 18, time_tracker, sparkle20, 2)
-    line(sequencer, 18, time_tracker, sparkle20, 3)
-    line(sequencer, 18, time_tracker, sparkle20, 4)
+    # line(sequencer, 18, time_tracker, sparkle20, 1)
+    # line(sequencer, 18, time_tracker, sparkle20, 2)
+    # line(sequencer, 18, time_tracker, sparkle20, 3)
+    # line(sequencer, 18, time_tracker, sparkle20, 4)
 
-    # for i in range( beats_to_ticks(4) ):
-    #     ramp = (i/100) * 255
-    #     sequencer.add_event(
-    #         i,
-    #         {1: int(ramp)}
-    #     )
-    # for i in range( beats_to_ticks(4) ):
-    #     ramp = ((i/100) * 255)
-    #     sequencer.add_event(
-    #         i + beats_to_ticks( 1 ),
-    #         {2: int(ramp)}
-    #     )
+    # time_tracker += 18
     
+    ##### cross two bumpps, 7secs
+    line(sequencer, 2, time_tracker, sparkle20, 1)
+    line(sequencer, 2, time_tracker, sparkle20, 3)
+    line(sequencer, 2, time_tracker+2, sparkle20, 2)
+    line(sequencer, 2, time_tracker+2, sparkle20, 4)
+
+    time_tracker += 4
+    line(sequencer, 2, time_tracker, sparkle20, 1)
+    line(sequencer, 2, time_tracker, sparkle20, 3)
+    line(sequencer, 2, time_tracker+2, sparkle20, 2)
+    line(sequencer, 2, time_tracker+2, sparkle20, 4)
+    
+    time_tracker += 4
+
+
+
+
+    ####### end and return the full sequence #######
     return sequencer
 
 if __name__ == "__main__":

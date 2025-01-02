@@ -1,5 +1,5 @@
 import random
-
+import math
 # function for creating curves
 
 # all vlaues are 0-1 normalized, then changed to 0-255
@@ -35,9 +35,16 @@ def peek_ad( v ):
         return 0.2 - (v * 0.2) 
     
 # random twinkle, 20% or 0%
+# this may need more work with the lifetime etc...
 def sparkle20( v ):
     rand = random.randint(0,100)
     if rand > 61:
         return 0
     else:
         return 0.2
+    
+# two bumps, just an absoluted sine
+def two_bumps( v ):
+    sine = math.sin( v * (math.pi*2) )
+    norm = math.abs( sine )
+    return norm * 0.5 
