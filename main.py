@@ -1,4 +1,5 @@
 from array import array
+from compose_utils import line
 import time
 import asyncio
 from ola.ClientWrapper import ClientWrapper
@@ -61,9 +62,7 @@ def create_composition():
     # print(f"hello?")
     sequencer = DMXSequencer()
     
-    # Helper function to convert beats to ticks
-    def beats_to_ticks(beats, bpm=90):
-        return int((beats * 60 * sequencer.ticks_per_second) / bpm)
+    
     
     # Example events
     # Flash light 1 at full brightness
@@ -80,19 +79,27 @@ def create_composition():
     #     beats_to_ticks(4),  # On beat 4
     #     {1: 255, 2: 255}    # Full brightness on channels 1 and 2
     # )
+    def linear_ad( v ):
+        return 1 - v
+    
+    line(sequencer, 4, 0, linear_ad, 1)
+    line(sequencer, 4, 1, linear_ad, 2)
+    line(sequencer, 4, 2, linear_ad, 3)
+    line(sequencer, 4, 3, linear_ad, 4)
 
-    for i in range( beats_to_ticks(4) ):
-        ramp = (i/100) * 255
-        sequencer.add_event(
-            i,
-            {1: int(ramp)}
-        )
-    for i in range( beats_to_ticks(4) ):
-        ramp = ((i/100) * 255)
-        sequencer.add_event(
-            i + beats_to_ticks( 1 ),
-            {2: int(ramp)}
-        )
+
+    # for i in range( beats_to_ticks(4) ):
+    #     ramp = (i/100) * 255
+    #     sequencer.add_event(
+    #         i,
+    #         {1: int(ramp)}
+    #     )
+    # for i in range( beats_to_ticks(4) ):
+    #     ramp = ((i/100) * 255)
+    #     sequencer.add_event(
+    #         i + beats_to_ticks( 1 ),
+    #         {2: int(ramp)}
+    #     )
     
     return sequencer
 
