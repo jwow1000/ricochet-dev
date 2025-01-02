@@ -12,7 +12,7 @@ def line( seq, beats, offset, algo, channel ):
     offset_ticks = beats_to_ticks( offset )
     step = 1 / (ticks-1)
     for i in range( ticks ):
-        math = algo( ticks * step )
+        math = algo( i * step )
         ramp = min( max(math * 255, 0), 255)
         seq.add_event(
             i + offset_ticks,
