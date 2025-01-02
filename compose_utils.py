@@ -31,6 +31,6 @@ def peek_ad( v ):
         return 0.5
     elif v > 0 :
         # ramp down
-        return 0.2 - (v / 0.2) 
+        return 0.2 - (v * 0.2) 
     
 
