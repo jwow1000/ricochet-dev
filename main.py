@@ -1,5 +1,4 @@
 from array import array
-from utils import ADSR
 import time
 import asyncio
 from ola.ClientWrapper import ClientWrapper
@@ -82,16 +81,16 @@ def create_composition():
     #     {1: 255, 2: 255}    # Full brightness on channels 1 and 2
     # )
 
-    for i in range(100):
+    for i in range( beats_to_ticks(4) ):
         ramp = (i/100) * 255
         sequencer.add_event(
             i,
             {1: int(ramp)}
         )
-    for i in range(100):
+    for i in range( beats_to_ticks(4) ):
         ramp = ((i/100) * 255)
         sequencer.add_event(
-            i + 50,
+            i + beats_to_ticks( 1 ),
             {2: int(ramp)}
         )
     
