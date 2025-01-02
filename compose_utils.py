@@ -38,6 +38,6 @@ def peek_ad( v ):
 def sparkle20( v ):
     rand = random.randint(0,100)
     if rand > 61:
-        return 0.2
-    else:
         return 0
+    else:
+        return 0.2
