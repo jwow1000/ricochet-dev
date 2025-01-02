@@ -70,10 +70,10 @@ def create_composition():
     time_tracker += 15
 
     ##### see peek cycle 14 seconds(21 beats) 
-    line(sequencer, 1, time_tracker, peek_ad, 1)
-    line(sequencer, 1, time_tracker+5.25, peek_ad, 2)
-    line(sequencer, 1, time_tracker+10.50, peek_ad, 3)
-    line(sequencer, 1, time_tracker+15.75, peek_ad, 4)
+    line(sequencer, 3, time_tracker, peek_ad, 1)
+    line(sequencer, 3, time_tracker+5.25, peek_ad, 2)
+    line(sequencer, 3, time_tracker+10.50, peek_ad, 3)
+    line(sequencer, 3, time_tracker+15.75, peek_ad, 4)
 
     time_tracker += 8
 
