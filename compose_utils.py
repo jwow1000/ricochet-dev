@@ -10,9 +10,9 @@ def beats_to_ticks(beats, bpm=90):
 def line( seq, beats, offset, algo, channel ):
     ticks = beats_to_ticks( beats )
     offset_ticks = beats_to_ticks( offset )
-
+    step = 1 / (ticks-1)
     for i in range( ticks ):
-        math = algo( i/ticks )
+        math = algo( ticks * step )
         ramp = min( max(math * 255, 0), 255)
         seq.add_event(
             i + offset_ticks,
