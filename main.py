@@ -86,16 +86,16 @@ def create_composition():
     # time_tracker += 18
     
     ##### cross two bumpps, 7secs
-    line(sequencer, 2, time_tracker, sparkle20, 1)
-    line(sequencer, 2, time_tracker, sparkle20, 3)
-    line(sequencer, 2, time_tracker+2, sparkle20, 2)
-    line(sequencer, 2, time_tracker+2, sparkle20, 4)
+    line(sequencer, 2, time_tracker, two_bumps, 1)
+    line(sequencer, 2, time_tracker, two_bumps, 3)
+    line(sequencer, 2, time_tracker+2, two_bumps, 2)
+    line(sequencer, 2, time_tracker+2, two_bumps, 4)
 
     time_tracker += 4
-    line(sequencer, 2, time_tracker, sparkle20, 1)
-    line(sequencer, 2, time_tracker, sparkle20, 3)
-    line(sequencer, 2, time_tracker+2, sparkle20, 2)
-    line(sequencer, 2, time_tracker+2, sparkle20, 4)
+    line(sequencer, 2, time_tracker, two_bumps, 1)
+    line(sequencer, 2, time_tracker, two_bumps, 3)
+    line(sequencer, 2, time_tracker+2, two_bumps, 2)
+    line(sequencer, 2, time_tracker+2, two_bumps, 4)
     
     time_tracker += 4
 
