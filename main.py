@@ -1,5 +1,5 @@
 from array import array
-from compose_utils import line, peek_ad
+from compose_utils import line, peek_ad, sparkle20
 import time
 import asyncio
 from ola.ClientWrapper import ClientWrapper
@@ -67,16 +67,21 @@ def create_composition():
     
     ########### begin composition ############
     ##### all off for 10 seconds( 15 beats )
-    time_tracker += 15
+    # time_tracker += 15
 
     ##### see peek cycle 14 seconds(21 beats) 
-    line(sequencer, 3, time_tracker, peek_ad, 1)
-    line(sequencer, 3, time_tracker+5.25, peek_ad, 2)
-    line(sequencer, 3, time_tracker+10.50, peek_ad, 3)
-    line(sequencer, 3, time_tracker+15.75, peek_ad, 4)
+    # line(sequencer, 3, time_tracker, peek_ad, 1)
+    # line(sequencer, 3, time_tracker+5.25, peek_ad, 2)
+    # line(sequencer, 3, time_tracker+10.50, peek_ad, 3)
+    # line(sequencer, 3, time_tracker+15.75, peek_ad, 4)
 
-    time_tracker += 8
-
+    # time_tracker += 21
+    
+    ##### random no strobe 12 seconds(18 beats)
+    line(sequencer, 18, time_tracker, sparkle20, 1)
+    line(sequencer, 18, time_tracker, sparkle20, 2)
+    line(sequencer, 18, time_tracker, sparkle20, 3)
+    line(sequencer, 18, time_tracker, sparkle20, 4)
 
     # for i in range( beats_to_ticks(4) ):
     #     ramp = (i/100) * 255

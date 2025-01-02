@@ -1,3 +1,5 @@
+import random
+
 # function for creating curves
 
 # all vlaues are 0-1 normalized, then changed to 0-255
@@ -26,11 +28,16 @@ def linear_ad( v ):
 
 # peek algo, 50% fastest attack, taper off
 def peek_ad( v ):
-   
     if v == 0:
         return 0.5
     elif v > 0 :
         # ramp down
         return 0.2 - (v * 0.2) 
     
-
+# random twinkle, 20% or 0%
+def sparkle20( v ):
+    rand = random.randint(0,100)
+    if rand > 61:
+        return 0.2
+    else:
+        return 0
