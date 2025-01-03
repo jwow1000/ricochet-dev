@@ -1,6 +1,6 @@
 from array import array
 from utils import FANCY_PRINT
-from compose_utils import line, peek_ad, sparkle20, two_bumps, on_off, quick_long_fade
+from compose_utils import line, peek_ad, sparkle20, two_bumps, on_off, quick_long_fade, strobe
 import time
 import asyncio
 from ola.ClientWrapper import ClientWrapper
@@ -68,6 +68,9 @@ def create_composition():
     
     # variable to track time (in beats)
     time_tracker = 0.0
+
+    # variable for on_off intensity
+    tri_brightness = 0.0
     
     ########### begin composition ############
     ##### all off for 10 seconds( 15 beats )
@@ -90,13 +93,14 @@ def create_composition():
     # time_tracker += 18
 
     # 1/4 round 8 seconds, 12 beats, 3 4beat loops
-    for i in range(3):
-      line(sequencer, 2, time_tracker, lambda x, arg=0.5: on_off(x, arg), 1) 
-      line(sequencer, 2, time_tracker+1, lambda x, arg=0.5: on_off(x, arg), 2) 
-      line(sequencer, 2, time_tracker+2, lambda x, arg=0.5: on_off(x, arg), 3) 
-      line(sequencer, 2, time_tracker+3, lambda x, arg=0.5: on_off(x, arg), 4)
+    # tri_brightness = 0.5
+    # for i in range(3):
+    #   line(sequencer, 2, time_tracker, lambda x, arg=tri_brightness: on_off(x, arg), 1) 
+    #   line(sequencer, 2, time_tracker+1, lambda x, arg=tri_brightness: on_off(x, arg), 2) 
+    #   line(sequencer, 2, time_tracker+2, lambda x, arg=tri_brightness: on_off(x, arg), 3) 
+    #   line(sequencer, 2, time_tracker+3, lambda x, arg=tri_brightness: on_off(x, arg), 4)
 
-      time_tracker += 4 
+    #   time_tracker += 4 
 
     
     ##### cross two bumps, 7secs, loop
@@ -115,7 +119,25 @@ def create_composition():
     #   line(sequencer, 2, time_tracker+2, quick_long_fade, 4)
     #   time_tracker += 4
 
+    ##### 1/8 note round
+    tri_brightness = 0.10
+    for i in range(3):
+      line(sequencer, 0.5, time_tracker, lambda x, arg=tri_brightness: strobe(x, arg), 1) 
+      line(sequencer, 0.5, time_tracker+0.5, lambda x, arg=tri_brightness: strobe(x, arg), 2) 
+      line(sequencer, 0.5, time_tracker+1, lambda x, arg=tri_brightness: strobe(x, arg), 3) 
+      line(sequencer, 0.5, time_tracker+1.5, lambda x, arg=tri_brightness: strobe(x, arg), 4)
 
+      time_tracker += 2
+
+    ##### 1/8 note round
+    tri_brightness = 0.18
+    for i in range(3):
+      line(sequencer, 0.5, time_tracker, lambda x, arg=0.18: strobe(x, arg), 1) 
+      line(sequencer, 0.5, time_tracker+0.5, lambda x, arg=0.18: strobe(x, arg), 2) 
+      line(sequencer, 0.5, time_tracker+1, lambda x, arg=0.18: strobe(x, arg), 3) 
+      line(sequencer, 0.5, time_tracker+1.5, lambda x, arg=0.18: strobe(x, arg), 4)
+
+      time_tracker += 2
     
 
 

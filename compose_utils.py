@@ -66,3 +66,10 @@ def quick_long_fade( v ):
         norm = 1 - v
         ramp = math.pow( norm, 2)
         return ramp * 0.5
+
+# basic strobe
+def strobe( v, scale ):
+    if v >= 0.999:
+        return 0
+    else:
+        return scale 
