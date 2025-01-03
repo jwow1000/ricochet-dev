@@ -41,7 +41,7 @@ class DMXSequencer:
     
     #Async system with precise timing
     async def run_async(self):
-        print_it = FANCY_PRINT()
+        # print_it = FANCY_PRINT()
         while True:
             tick_start = time.time()
             
@@ -49,8 +49,8 @@ class DMXSequencer:
             for event_tick, channels in self.events:
                 if event_tick == self.current_tick:
                     self.send_dmx(channels)
-                    #print(f"{self.current_tick}: {channels}")
-                    print_it.update( channels )
+                    print(f"{self.current_tick}: {channels}")
+                    # print_it.update( channels )
                     
             
             # Increment tick and wrap around
