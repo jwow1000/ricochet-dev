@@ -119,27 +119,27 @@ def create_composition():
     #   line(sequencer, 2, time_tracker+2, quick_long_fade, 4)
     #   time_tracker += 4
 
-    ##### 1/8 note round
-    tri_brightness = 0.10
-    for i in range(3):
-      line(sequencer, 0.5, time_tracker, lambda x, arg=tri_brightness: strobe(x, arg), 1) 
-      line(sequencer, 0.5, time_tracker+0.5, lambda x, arg=tri_brightness: strobe(x, arg), 2) 
-      line(sequencer, 0.5, time_tracker+1, lambda x, arg=tri_brightness: strobe(x, arg), 3) 
-      line(sequencer, 0.5, time_tracker+1.5, lambda x, arg=tri_brightness: strobe(x, arg), 4)
+    ##### 1/4 note rounds strobe loop
+    bright_list = [0.10, 0.18, 0.30, 0.50, 0.70, 1]
+    note_div = [1, 1, 0.75, 0.5, 0.25, 0.125]
+    for j in range(6):
+        
+      ##### 1/4 note round (4 beats)
+      tri_brightness = bright_list[j]
+      for i in range(1):
+        line(sequencer, note_div, time_tracker, lambda x, arg=tri_brightness: strobe(x, arg), 1) 
+        line(sequencer, note_div, time_tracker+note_div, lambda x, arg=tri_brightness: strobe(x, arg), 2) 
+        line(sequencer, note_div, time_tracker+(note_div*2), lambda x, arg=tri_brightness: strobe(x, arg), 3) 
+        line(sequencer, note_div, time_tracker+(note_div*3), lambda x, arg=tri_brightness: strobe(x, arg), 4)
 
-      time_tracker += 2
-
-    ##### 1/8 note round
-    tri_brightness = 0.18
-    for i in range(3):
-      line(sequencer, 0.5, time_tracker, lambda x, arg=0.18: strobe(x, arg), 1) 
-      line(sequencer, 0.5, time_tracker+0.5, lambda x, arg=0.18: strobe(x, arg), 2) 
-      line(sequencer, 0.5, time_tracker+1, lambda x, arg=0.18: strobe(x, arg), 3) 
-      line(sequencer, 0.5, time_tracker+1.5, lambda x, arg=0.18: strobe(x, arg), 4)
-
-      time_tracker += 2
+        time_tracker += note_div*4
     
+    ##### All off rest
+    time_tracker += 1
 
+
+
+   
 
 
 
