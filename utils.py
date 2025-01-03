@@ -8,14 +8,16 @@ class FANCY_PRINT:
     self.c4 = 0
   
   def update( self, chans ):
+    if chans[0]:
+      self.c1 = chans[0]
     if chans[1]:
-      self.c1 = chans[1]
-    elif chans[2]:
-      self.c2 = chans[2]
-    elif chans[3]:
-      self.c3 = chans[3]
-    elif chans[4]:
-      self.c4 = chans[4]
+      self.c2 = chans[1]
+    if chans[2]:
+      self.c3 = chans[2]
+    if chans[3]:
+      self.c4 = chans[3]
+    
+    # print it
     os.system("clear")
     print(f"1: {self.c1} \n 2: {self.c2} \n 3: {self.c3} \n 4: {self.c4} \n" )
   
