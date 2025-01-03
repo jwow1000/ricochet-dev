@@ -91,10 +91,10 @@ def create_composition():
 
     # 1/4 round 8 seconds, 12 beats, 3 4beat loops
     for i in range(3):
-      line(sequencer, 2, time_tracker, on_off(0.5), 1) 
-      line(sequencer, 2, time_tracker+1, on_off(0.5), 2) 
-      line(sequencer, 2, time_tracker+2, on_off(0.5), 3) 
-      line(sequencer, 2, time_tracker+3, on_off(0.5), 4)
+      line(sequencer, 2, time_tracker, lambda x, arg=0.5: on_off(x, arg), 1) 
+      line(sequencer, 2, time_tracker+1, lambda x, arg=0.5: on_off(x, arg), 2) 
+      line(sequencer, 2, time_tracker+2, lambda x, arg=0.5: on_off(x, arg), 3) 
+      line(sequencer, 2, time_tracker+3, lambda x, arg=0.5: on_off(x, arg), 4)
 
       time_tracker += 4 
 
