@@ -90,13 +90,13 @@ def create_composition():
     # time_tracker += 18
 
     # 1/4 round 8 seconds, 12 beats, 3 4beat loops
-    # for i in range(3):
-    #   line(sequencer, 2, time_tracker, on_off, 1) 
-    #   line(sequencer, 2, time_tracker+1, on_off, 2) 
-    #   line(sequencer, 2, time_tracker+2, on_off, 3) 
-    #   line(sequencer, 2, time_tracker+3, on_off, 4)
+    for i in range(3):
+      line(sequencer, 2, time_tracker, on_off(0.5), 1) 
+      line(sequencer, 2, time_tracker+1, on_off(0.5), 2) 
+      line(sequencer, 2, time_tracker+2, on_off(0.5), 3) 
+      line(sequencer, 2, time_tracker+3, on_off(0.5), 4)
 
-    #   time_tracker += 4 
+      time_tracker += 4 
 
     
     ##### cross two bumps, 7secs, loop
@@ -108,12 +108,14 @@ def create_composition():
     #   time_tracker += 4
 
     ##### cross quick attack, 7secs, 
-    for i in range(2):
-      line(sequencer, 2, time_tracker, quick_long_fade, 1)
-      line(sequencer, 2, time_tracker, quick_long_fade, 3)
-      line(sequencer, 2, time_tracker+2, quick_long_fade, 2)
-      line(sequencer, 2, time_tracker+2, quick_long_fade, 4)
-      time_tracker += 4
+    # for i in range(2):
+    #   line(sequencer, 2, time_tracker, quick_long_fade, 1)
+    #   line(sequencer, 2, time_tracker, quick_long_fade, 3)
+    #   line(sequencer, 2, time_tracker+2, quick_long_fade, 2)
+    #   line(sequencer, 2, time_tracker+2, quick_long_fade, 4)
+    #   time_tracker += 4
+
+
     
 
 

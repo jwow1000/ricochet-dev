@@ -43,14 +43,14 @@ def sparkle20( v ):
     else:
         return 0.2
 
-def on_off( v ):
+def on_off( v , scale ):
     output = 0
     if v <= 0.5:
         output =  v * 2
     else:
-        norm = (v - 0.5) * 2
+        norm = (v - 0.4999) * 2
         output = 1 - norm
-    return output * 0.5
+    return output * scale
     
 # two bumps, just an absoluted sine
 def two_bumps( v ):
