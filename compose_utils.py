@@ -46,5 +46,5 @@ def sparkle20( v ):
 # two bumps, just an absoluted sine
 def two_bumps( v ):
     sine = math.sin( v * (math.pi*2) )
-    norm = math.abs( sine )
+    norm = abs( sine )
     return norm * 0.5 
