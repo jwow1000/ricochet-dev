@@ -49,7 +49,7 @@ class DMXSequencer:
             for event_tick, channels in self.events:
                 if event_tick == self.current_tick:
                     self.send_dmx(channels)
-                    print(f"channels: {channels}")
+                    print(f"{self.current_tick}: {channels}")
                     #print_it.update( channels )
                     
             
