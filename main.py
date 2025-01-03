@@ -96,7 +96,7 @@ def create_composition():
       line(sequencer, 2, time_tracker+2, on_off, 3) 
       line(sequencer, 2, time_tracker+3, on_off, 4)
 
-      time_tracker += 6 
+      time_tracker += 4 
 
     
     ##### cross two bumps, 7secs, loop
