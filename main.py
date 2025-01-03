@@ -121,11 +121,12 @@ def create_composition():
 
     ##### 1/4 note rounds strobe loop
     bright_list = [0.10, 0.18, 0.30, 0.50, 0.70, 1]
-    note_div = [1, 1, 0.75, 0.5, 0.25, 0.125]
+    notes = [1, 1, 0.75, 0.5, 0.25, 0.125]
     for j in range(6):
         
       ##### 1/4 note round (4 beats)
       tri_brightness = bright_list[j]
+      note_div = notes[j]
       for i in range(1):
         line(sequencer, note_div, time_tracker, lambda x, arg=tri_brightness: strobe(x, arg), 1) 
         line(sequencer, note_div, time_tracker+note_div, lambda x, arg=tri_brightness: strobe(x, arg), 2) 
