@@ -45,7 +45,7 @@ def sparkle20( v ):
 
 def on_off( v ):
     output = 0
-    if v < 0.5:
+    if v <= 0.5:
         output =  v * 2
     else:
         norm = (v - 0.5) * 2
@@ -57,3 +57,12 @@ def two_bumps( v ):
     sine = math.sin( v * (math.pi*2) )
     norm = abs( sine )
     return norm * 0.5 
+
+# 100% strobe to 50% fade out
+def quick_long_fade( v ):
+    if v == 0:
+        return 1
+    else:
+        norm = 1 - v
+        ramp = math.pow( norm, 2)
+        return ramp * 0.5

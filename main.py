@@ -1,6 +1,6 @@
 from array import array
 from utils import FANCY_PRINT
-from compose_utils import line, peek_ad, sparkle20, two_bumps, on_off
+from compose_utils import line, peek_ad, sparkle20, two_bumps, on_off, quick_long_fade
 import time
 import asyncio
 from ola.ClientWrapper import ClientWrapper
@@ -89,14 +89,14 @@ def create_composition():
 
     # time_tracker += 18
 
-    # 1/4 round 8 seconds, 12 beats, two 6beat loops
-    for i in range(2):
-      line(sequencer, 2, time_tracker, on_off, 1) 
-      line(sequencer, 2, time_tracker+1, on_off, 2) 
-      line(sequencer, 2, time_tracker+2, on_off, 3) 
-      line(sequencer, 2, time_tracker+3, on_off, 4)
+    # 1/4 round 8 seconds, 12 beats, 3 4beat loops
+    # for i in range(3):
+    #   line(sequencer, 2, time_tracker, on_off, 1) 
+    #   line(sequencer, 2, time_tracker+1, on_off, 2) 
+    #   line(sequencer, 2, time_tracker+2, on_off, 3) 
+    #   line(sequencer, 2, time_tracker+3, on_off, 4)
 
-      time_tracker += 4 
+    #   time_tracker += 4 
 
     
     ##### cross two bumps, 7secs, loop
@@ -107,7 +107,13 @@ def create_composition():
     #   line(sequencer, 2, time_tracker+2, two_bumps, 4)
     #   time_tracker += 4
 
-    
+    ##### cross quick attack, 7secs, 
+    for i in range(2):
+      line(sequencer, 2, time_tracker, quick_long_fade, 1)
+      line(sequencer, 2, time_tracker, quick_long_fade, 3)
+      line(sequencer, 2, time_tracker+2, quick_long_fade, 2)
+      line(sequencer, 2, time_tracker+2, quick_long_fade, 4)
+      time_tracker += 4
     
 
 
