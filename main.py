@@ -183,8 +183,8 @@ def create_composition():
     ##### hurricane, loop twice
     for j in range(2):
       for i in range(4):
-          line(sequencer, 4, time_tracker+(i+1), hurricane, (i+1))
-      time_tracker+8
+          line(sequencer, 6, time_tracker+(i+1), hurricane, (i+1))
+      time_tracker+10
 
 
 
