@@ -1,6 +1,6 @@
 from array import array
 from utils import FANCY_PRINT
-from compose_utils import line, line_strobe, peek_ad, sparkle20, two_bumps, on_off, quick_long_fade, strobe, hurricane
+from compose_utils import line, line_strobe, peek_ad, sparkle20, two_bumps, on_off, quick_long_fade, strobe, hurricane, shaky
 import time
 import asyncio
 from ola.ClientWrapper import ClientWrapper
@@ -186,6 +186,11 @@ def create_composition():
           line(sequencer, 4, time_tracker+(i), hurricane, (i+1))
       time_tracker += 7
 
+    ##### all shaky
+    for j in range(2):
+      for i in range(4):
+          line(sequencer, 4, time_tracker+(i), shaky, (i+1))
+      time_tracker += 7
 
 
 

@@ -104,3 +104,14 @@ def hurricane( v ):
         sine = math.sin( v * (math.pi*2) )
         norm = (sine * 0.2) + 0.2
         return norm
+
+# shaky sine
+def shaky( v ):
+    if v >= 0.999:
+        return 0
+    else:
+        # speed * 7
+        sine = math.sin( (v*7) * (math.pi*2) )
+        norm = (sine * 0.25) + 0.25
+        envelope = math.pow( math.sin( (v/4) * (math.pi*2) ), 12)
+        return envelope * norm
