@@ -150,7 +150,6 @@ def create_composition():
     sequencer.time_tracker += 1
 
     for j in range(6):
-        
       ##### 1/4 note round (4 beats)
       tri_brightness = 1
       note_div = notes
