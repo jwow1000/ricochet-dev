@@ -98,6 +98,9 @@ def strobe( v, scale ):
 
 # hurricane sine
 def hurricane( v ):
-    sine = math.sin( v * (math.pi*2) )
-    norm = (sine * 0.2) + 0.2
-    return norm
+    if v >= 0.999:
+        return 0
+    else:
+        sine = math.sin( v * (math.pi*2) )
+        norm = (sine * 0.2) + 0.2
+        return norm
