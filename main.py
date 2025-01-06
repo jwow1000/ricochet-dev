@@ -162,7 +162,7 @@ def create_composition():
 
         sequencer.time_tracker += note_div*4 
         # add rest
-        sequencer.time_tracker = rests[j]
+        sequencer.time_tracker += rests[j]
         
     #### ALL STROBE
     for i in range(4):
