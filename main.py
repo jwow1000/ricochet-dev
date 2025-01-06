@@ -159,7 +159,7 @@ def create_composition():
         line(sequencer, note_div, sequencer.time_tracker, lambda x, arg=tri_brightness: strobe(x, arg), 1) 
         line(sequencer, note_div, sequencer.time_tracker+note_div, lambda x, arg=tri_brightness: strobe(x, arg), 2) 
         line(sequencer, note_div, sequencer.time_tracker+(note_div*2), lambda x, arg=tri_brightness: strobe(x, arg), 3) 
-        line(sequencer, note_div, sequencer.time_tracker+(note_div*3), lambda x, arg=tri_brightness: strobe(x, arg), 4))
+        line(sequencer, note_div, sequencer.time_tracker+(note_div*3), lambda x, arg=tri_brightness: strobe(x, arg), 4)
 
         sequencer.time_tracker += note_div*4 
         # add rest
@@ -260,7 +260,7 @@ def create_composition():
 
     ####### end, set the composition length, and return the full sequence #######
     sequencer.set_comp_length()
-    
+
     return sequencer
 
 if __name__ == "__main__":
