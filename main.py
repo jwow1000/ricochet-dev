@@ -79,6 +79,7 @@ def create_composition():
     ########### begin composition ############
     #### all off for 10 seconds( 15 beats )
     sequencer.time_tracker += 15
+    print(f"check tracker: {sequencer.time_tracker}")
 
     ##### see peek cycle 14 seconds(21 beats) 
     line(sequencer, 3, sequencer.time_tracker, peek_ad, 1)
