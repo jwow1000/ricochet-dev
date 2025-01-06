@@ -1,6 +1,6 @@
 from array import array
 from utils import FANCY_PRINT
-from compose_utils import line, peek_ad, sparkle20, two_bumps, on_off, quick_long_fade, strobe
+from compose_utils import line, line_strobe, peek_ad, sparkle20, two_bumps, on_off, quick_long_fade, strobe, hurricane
 import time
 import asyncio
 from ola.ClientWrapper import ClientWrapper
@@ -120,45 +120,72 @@ def create_composition():
     #   time_tracker += 4
 
     ##### 1/4 note rounds strobe loop
-    bright_list = [0.10, 0.18, 0.30, 0.50, 0.70, 1]
-    notes = [1, 1, 0.75, 0.5, 0.25, 0.125]
-    loops = [1, 2, 3, 4, 5, 6]
+    # bright_list = [0.10, 0.18, 0.30, 0.50, 0.70, 1]
+    # notes = [1, 1, 0.75, 0.5, 0.25, 0.125]
+    # loops = [1, 2, 3, 4, 5, 6]
     
-    for j in range(6):
+    # for j in range(6):
         
-      ##### 1/4 note round (4 beats)
-      tri_brightness = bright_list[j]
-      note_div = notes[j]
-      for i in range(loops[j]):
-        line(sequencer, note_div, time_tracker, lambda x, arg=tri_brightness: strobe(x, arg), 1) 
-        line(sequencer, note_div, time_tracker+note_div, lambda x, arg=tri_brightness: strobe(x, arg), 2) 
-        line(sequencer, note_div, time_tracker+(note_div*2), lambda x, arg=tri_brightness: strobe(x, arg), 3) 
-        line(sequencer, note_div, time_tracker+(note_div*3), lambda x, arg=tri_brightness: strobe(x, arg), 4)
+    #   ##### 1/4 note round (4 beats)
+    #   tri_brightness = bright_list[j]
+    #   note_div = notes[j]
+    #   for i in range(loops[j]):
+    #     line(sequencer, note_div, time_tracker, lambda x, arg=tri_brightness: strobe(x, arg), 1) 
+    #     line(sequencer, note_div, time_tracker+note_div, lambda x, arg=tri_brightness: strobe(x, arg), 2) 
+    #     line(sequencer, note_div, time_tracker+(note_div*2), lambda x, arg=tri_brightness: strobe(x, arg), 3) 
+    #     line(sequencer, note_div, time_tracker+(note_div*3), lambda x, arg=tri_brightness: strobe(x, arg), 4)
 
-        time_tracker += note_div*4
+    #     time_tracker += note_div*4
     
-    ##### on off rest sequence
-    notes = 0.25 
-    loops = [4, 2, 2, 2, 1, 1]
-    rests = [1, 2, 2, 2, 1, 1]
-    # first rest
-    time_tracker += 1
+    # ##### on off rest sequence
+    # notes = 0.25 
+    # loops = [4, 2, 2, 2, 1, 1]
+    # rests = [1, 2, 2, 2, 1, 1]
+    # # first rest
+    # time_tracker += 1
 
-    for j in range(6):
+    # for j in range(6):
         
-      ##### 1/4 note round (4 beats)
-      tri_brightness = 1
-      note_div = notes
-      for i in range(loops[j]):
-        line(sequencer, note_div, time_tracker, lambda x, arg=tri_brightness: strobe(x, arg), 1) 
-        line(sequencer, note_div, time_tracker+note_div, lambda x, arg=tri_brightness: strobe(x, arg), 2) 
-        line(sequencer, note_div, time_tracker+(note_div*2), lambda x, arg=tri_brightness: strobe(x, arg), 3) 
-        line(sequencer, note_div, time_tracker+(note_div*3), lambda x, arg=tri_brightness: strobe(x, arg), 4)
+    #   ##### 1/4 note round (4 beats)
+    #   tri_brightness = 1
+    #   note_div = notes
+    #   for i in range(loops[j]):
+    #     line(sequencer, note_div, time_tracker, lambda x, arg=tri_brightness: strobe(x, arg), 1) 
+    #     line(sequencer, note_div, time_tracker+note_div, lambda x, arg=tri_brightness: strobe(x, arg), 2) 
+    #     line(sequencer, note_div, time_tracker+(note_div*2), lambda x, arg=tri_brightness: strobe(x, arg), 3) 
+    #     line(sequencer, note_div, time_tracker+(note_div*3), lambda x, arg=tri_brightness: strobe(x, arg), 4)
 
-        time_tracker += note_div*4 
-        # add rest
-        time_tracker = rests[j]
+    #     time_tracker += note_div*4 
+    #     # add rest
+    #     time_tracker = rests[j]
         
+    ##### ALL STROBE
+    # for i in range(4):
+    #   line_strobe( sequencer, 8, time_tracker, i+1, 255, 154, 0)
+    # # add 4 
+    # time_tracker += 4
+    
+    ##### All strobe faster
+    # for i in range(4):
+    #   line_strobe( sequencer, 8, time_tracker, i+1, 255, 173, 0)
+    # # add 4 
+    # time_tracker += 4
+    
+    ##### All strobe faster
+    # for i in range(4):
+    #   line_strobe( sequencer, 8, time_tracker, i+1, 255, 191, 0)
+    # # add 4 
+    # time_tracker += 4
+    
+    ##### All off for a second
+    # time_tracker += 2
+
+    ##### hurricane, loop twice
+    for j in range(2):
+      for i in range(4):
+          line(sequencer, 3, time_tracker+(i+1), hurricane, (i+1))
+      time_tracker+6
+
 
 
 

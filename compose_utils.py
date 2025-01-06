@@ -23,7 +23,26 @@ def line( seq, beats, offset, algo, channel ):
             i + offset_ticks,
             { channel_num: int(ramp)}
         )
+# root line function but for strobe, no need for continuous ticks
+def line_strobe( seq, beats, offset, channel, bright, rate, dur):
+  channel_num = ((channel-1)*3)+1
+  ticks = beats_to_ticks( beats )
+  offset_ticks = beats_to_ticks( offset )
+  
+  # turn on light (strobe on) and then control brightness
+  seq.add_event( offset_ticks, {
+      channel_num: bright,
+      channel_num + 1: rate, 
+      channel_num + 2: dur
+  })
+  # turn off light, and strobe, next effect will turn on
+  seq.add_event( offset_ticks + ticks, {
+      channel_num: 0,
+      channel_num + 1: 6, 
+      
+  })
 
+  
 # # # # # # algos to use with the line function
 # simple fastest attack possible, with linear out (use for test)
 def linear_ad( v ):
@@ -76,3 +95,9 @@ def strobe( v, scale ):
         return 0
     else:
         return scale 
+
+# hurricane sine
+def hurricane( v ):
+    sine = math.sin( v * (math.pi*2) )
+    norm = (sine * 0.2) + 0.2
+    return norm
