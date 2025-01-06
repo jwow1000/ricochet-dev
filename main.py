@@ -88,7 +88,7 @@ def create_composition():
     line(sequencer, 3, sequencer.time_tracker+10.50, peek_ad, 3)
     line(sequencer, 3, sequencer.time_tracker+15.75, peek_ad, 4)
 
-    time_tracker += 21
+    sequencer.time_tracker += 21
     
     #### random no strobe 12 seconds(18 beats)
     line(sequencer, 18, sequencer.time_tracker, sparkle20, 1)
