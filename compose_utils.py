@@ -23,6 +23,7 @@ def line( seq, beats, offset, algo, channel ):
             i + offset_ticks,
             { channel_num: int(ramp)}
         )
+
 # root line function but for strobe, no need for continuous ticks
 def line_strobe( seq, beats, offset, channel, bright, rate, dur):
   channel_num = ((channel-1)*3)+1
@@ -115,3 +116,43 @@ def shaky( v ):
         norm = (sine * 0.25) + 0.25
         envelope = math.pow( math.sin( (v/4) * (math.pi*2) ), 6)
         return envelope * norm
+
+# long linear attack, sharp end
+def long_attack( v ):
+    if v >= 0.999:
+        return 0
+    else:
+        norm = 1 - v
+        return norm * 0.48
+
+# long decay 255
+def long_decay( v ):
+  return math.pow( 1 - v, 6)
+  
+
+# random strobe
+def line_random_strobe( seq, beats, offset, channel, bright, rate, dur, noise):
+  channel_num = ((channel-1)*3)+1
+  ticks = beats_to_ticks( beats )
+  offset_ticks = beats_to_ticks( offset )
+
+  for i in range( ticks-1 ):
+      rand = random.randint(0,100)
+      if rand > noise:
+        # turn on light (strobe on) and then control brightness
+        seq.add_event( offset_ticks + i, {
+            channel_num: bright,
+            channel_num + 1: rate, 
+            channel_num + 2: dur
+        })
+      else:
+        # turn off light
+        seq.add_event( offset_ticks + i, {
+            channel_num: 0,
+        })
+
+  # end the effect
+  seq.add_event( offset_ticks + ticks, {
+      channel_num: 0,
+      channel_num + 1: 6
+  })      
