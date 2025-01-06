@@ -13,6 +13,7 @@ def line( seq, beats, offset, algo, channel ):
     channel_num = ((channel-1)*3)+1
     ticks = beats_to_ticks( beats )
     offset_ticks = beats_to_ticks( offset )
+    print(f"offset ticks: {offset_ticks}")
     step = 1 / (ticks-1)
     # turn on light (strobe on) and then control brightness
     seq.add_event( offset_ticks, {channel_num + 1: 0})
