@@ -1,6 +1,6 @@
 from array import array
 from utils import FANCY_PRINT
-from compose_utils import line, line_strobe, peek_ad, sparkle20, two_bumps, on_off, quick_long_fade, strobe, hurricane, shaky, long_attack, line_random_strobe, long_decay
+from compose_utils import line, line_strobe, peek_ad, sparkle20, two_bumps, on_off, quick_long_fade, strobe, hurricane, shaky, long_attack, line_random_strobe, long_decay, beats_to_ticks
 import time
 import asyncio
 from ola.ClientWrapper import ClientWrapper
@@ -19,11 +19,9 @@ class DMXSequencer:
         self.client = self.wrapper.Client()
         self.universe = 1
         self.data = array('B', [0] * 512)  # Global DMX data array
-    def beats_to_ticks(beats, bpm=90):
-      return int((beats * 60 * 50) / bpm)
     
     def set_comp_length(self):
-        self.composition_length = self.beats_to_ticks( self.time_tracker )
+        self.composition_length = beats_to_ticks( self.time_tracker )
 
     def dmx_sent(self, state):
         if not state.Succeeded():
