@@ -185,7 +185,7 @@ def create_composition():
       print("does this shit loop twice wtf?!")
       for i in range(4):
           line(sequencer, 6, time_tracker+(i+1), hurricane, (i+1))
-      time_tracker+10
+      time_tracker += 10
 
 
 
