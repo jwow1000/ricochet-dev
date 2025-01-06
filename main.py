@@ -250,7 +250,7 @@ def create_composition():
     ##### all on
     for i in range(4):
       line(sequencer, 8, sequencer.time_tracker, lambda x, arg=1: strobe(x, arg), i+1)
-    time_tracker += 8
+    sequencer.time_tracker += 8
 
     ##### all long decay, 21 beats or 14 seconds 
     for i in range(4):
