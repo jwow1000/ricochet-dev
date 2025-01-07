@@ -5,7 +5,7 @@ import time
 import asyncio
 import heapq
 from ola.ClientWrapper import ClientWrapper
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List, Callable
 
 @dataclass
