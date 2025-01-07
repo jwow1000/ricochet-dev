@@ -2,27 +2,52 @@ from array import array
 from utils import FANCY_PRINT
 from compose_utils import line, line_strobe, peek_ad, sparkle20, two_bumps, on_off, quick_long_fade, strobe, hurricane, shaky, long_attack, line_random_strobe, long_decay, beats_to_ticks
 import time
+import sys
 import asyncio
-import heapq
 from ola.ClientWrapper import ClientWrapper
 from dataclasses import dataclass
 from typing import List, Callable
 
-@dataclass
+def dmx_connect():
+    max_retries = 30
+    retry_count = 0
+    
+    while retry_count < max_retries:
+        try:
+            wrapper = ClientWrapper()
+            client = wrapper.Client()
+            # Test connection by sending a zero packet
+            if client.SendDmx(1, [0] * 512):
+                print("Successfully connected to DMX")
+                return wrapper, client
+        except Exception as e:
+            print(f"Connection attempt {retry_count + 1} failed: {e}")
+            retry_count += 1
+            time.sleep(1)
+    
+    print("Failed to connect to DMX after maximum retries")
+    sys.exit(1)
+
+
 class DMXSequencer:
-    ticks_per_second: int = 50
-    composition_length: int = 12000
-    universe: int = 1
-    data: array = field(default_factory=lambda: array('B', [0] * 512))
-    events: list = field(default_factory=list)
-    current_tick: int = 0
-    wrapper: ClientWrapper = None
-    client: object = None
+    def __init__(self):
+        self.current_tick = 0
+        self.ticks_per_second = 50  # 20ms per tick
+        self.composition_length = 12000  # 4 minutes at 50 ticks/second
+        self.time_tracker = 0
+        self.events = []
+        self.universe = 1
+        self.data = array('B', [0] * 512)  # Global DMX data array
 
-    def __post_init__(self):
+        # Initialize connection with retry logic
         self.wrapper, self.client = self._connect_dmx()
-
+     
+    # connection function
     def _connect_dmx(self, max_retries=30, retry_delay=1):
+        """
+        Establishes connection to DMX interface with retry logic
+        Returns: (wrapper, client) tuple
+        """
         retry_count = 0
         last_error = None
         
@@ -30,46 +55,69 @@ class DMXSequencer:
             try:
                 wrapper = ClientWrapper()
                 client = wrapper.Client()
+                
+                # Test connection by sending a zero packet
                 if client.SendDmx(self.universe, [0] * 512):
                     print(f"Successfully connected to DMX on attempt {retry_count + 1}")
                     return wrapper, client
+                
             except Exception as e:
                 last_error = str(e)
                 print(f"Connection attempt {retry_count + 1} failed: {e}")
                 retry_count += 1
-                time.sleep(retry_delay)
-
-        raise ConnectionError(f"Failed to connect to DMX after {max_retries} attempts. Last error: {last_error}")
-
-    def add_event(self, tick, channels):
-        heapq.heappush(self.events, (tick, channels))
-
-    def send_dmx(self, channels):
-        for channel, value in channels.items():
-            self.data[channel - 1] = value
-        self.client.SendDmx(self.universe, self.data, self.dmx_sent)
+                
+                if retry_count < max_retries:
+                    print(f"Retrying in {retry_delay} seconds...")
+                    time.sleep(retry_delay)
+        
+        # If we get here, we've failed to connect
+        error_msg = f"Failed to connect to DMX after {max_retries} attempts. Last error: {last_error}"
+        raise ConnectionError(error_msg)
+     
+    def set_comp_length(self):
+        self.composition_length = beats_to_ticks( self.time_tracker )
 
     def dmx_sent(self, state):
         if not state.Succeeded():
             print('Error: DMX send failed')
+        
+    def send_dmx(self, channels):
+        # Update only the specified channels
+        for channel, value in channels.items():
+            self.data[channel - 1] = value  # Convert from 1-indexed to 0-indexed
+        # Send the DMX data
+        self.client.SendDmx(self.universe, self.data, self.dmx_sent)
 
+
+    def add_event(self, tick, channels):
+        """
+        Add a lighting event
+        tick: when to trigger the event
+        channels: dict of {channel: value}
+        """
+        self.events.append((tick, channels))
+    
+    #Async system with precise timing
     async def run_async(self):
+        # print_it = FANCY_PRINT()
         while True:
-            tick_start = asyncio.get_event_loop().time()
-            while self.events and self.events[0][0] == self.current_tick:
-                _, channels = heapq.heappop(self.events)
-                self.send_dmx(channels)
-                print(f"{self.current_tick}: {channels}")
+            tick_start = time.time()
             
+            # Find and execute all events for current tick
+            for event_tick, channels in self.events:
+                if event_tick == self.current_tick:
+                    self.send_dmx(channels)
+                    print(f"{self.current_tick}: {channels}")
+                    # print_it.update( channels )
+                    
+            
+            # Increment tick and wrap around
             self.current_tick = (self.current_tick + 1) % self.composition_length
-            elapsed = asyncio.get_event_loop().time() - tick_start
-            sleep_time = max(0, (1 / self.ticks_per_second) - elapsed)
+            
+            # Calculate precise sleep time
+            elapsed = time.time() - tick_start
+            sleep_time = max(0, (1/self.ticks_per_second) - elapsed)
             await asyncio.sleep(sleep_time)
-
-    def shutdown(self):
-        if self.wrapper:
-            self.wrapper.Stop()
-            print("DMX client shut down.")
 
 # Example usage with easy-to-read composition definition
 def create_composition():
