@@ -133,7 +133,7 @@ def create_composition():
       })
 
     sequencer.time_tracker += 15
-    # print(f"check tracker: {sequencer.time_tracker}")
+    # print(f"check tracker: {sequencer.qtime_tracker}")
 
     ##### see peek cycle 14 seconds(21 beats) 
     line(sequencer, 3, sequencer.time_tracker, peek_ad, 1)
