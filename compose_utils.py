@@ -131,6 +131,10 @@ def long_attack( v ):
 def long_decay( v ):
   return math.pow( 1 - v, 6)
 
+# long decay 255
+def long_decay_chill( v ):
+  return math.pow( (1 - v) * 0.2, 6)
+
 
 # random strobe
 def line_random_strobe( seq, beats, offset, channel, bright, rate, dur, noise):

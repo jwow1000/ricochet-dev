@@ -1,6 +1,6 @@
 from array import array
 from compose_utils import beats_to_ticks
-from compose_utils import line, line_strobe, peek_ad, sparkle20, two_bumps, on_off, quick_long_fade, strobe, hurricane, shaky, long_attack, line_random_strobe, long_decay, beats_to_ticks
+from compose_utils import line, line_strobe, peek_ad, sparkle20, two_bumps, on_off, quick_long_fade, strobe, hurricane, shaky, long_attack, line_random_strobe, long_decay, beats_to_ticks, long_decay_chill
 import time
 import heapq
 import asyncio
@@ -118,8 +118,8 @@ def create_composition():
     ####### hurricane calm for a while "chill mode"
     for j in range(12):
       for i in range(4):
-          line(sequencer, 16, sequencer.time_tracker+(i), hurricane, (i+1))
-      sequencer.time_tracker += 28
+          line(sequencer, 21, sequencer.time_tracker, long_decay_chill, (i+1))
+      sequencer.time_tracker += 21
 
       
     #### all off for 10 seconds( 15 beats )
