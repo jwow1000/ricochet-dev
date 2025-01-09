@@ -49,7 +49,7 @@ class DMXSequencer:
     def send_dmx(self, channels):
         for channel, value in channels.items():
             self.data[channel - 1] = value
-        self.client.SendDmx(self.universe, bytes(self.data), self.dmx_sent)
+        self.client.SendDmx(self.universe, self.data, self.dmx_sent)
 
     def dmx_sent(self, state):
         if not state.Succeeded():
