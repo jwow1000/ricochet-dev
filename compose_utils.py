@@ -105,8 +105,8 @@ def hurricane( v ):
         return 0
     else:
         sine = math.sin( v * (math.pi*2) )
-        norm = (sine * 0.2) + 0.2
-        return norm
+        norm = (sine * 0.5) + 0.5
+        return norm * 0.1
 
 # shaky sine
 def shaky( v ):
