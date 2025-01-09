@@ -12,6 +12,7 @@ from typing import List, Callable
 class DMXSequencer:
     def __init__(self):
         self.event_queue = []
+        self.event_index = 0
         self.current_tick = 0
         self.ticks_per_second = 50  # 20ms per tick
         self.composition_length = 12000  # 4 minutes at 50 ticks/second
@@ -43,7 +44,9 @@ class DMXSequencer:
         tick: when to trigger the event
         channels: dict of {channel: value}
         """
-        heapq.heappush(self.event_queue, (tick, channels))
+
+        heapq.heappush(self.event_queue, (tick, self.event_index, channels))
+        self.event_index += 1
         
     # Async system with precise timing
     async def run_async(self):
