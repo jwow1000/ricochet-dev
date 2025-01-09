@@ -66,7 +66,7 @@ def sparkle20( v ):
     if rand > 61:
         return 0
     else:
-        return 0.2
+        return 0.12
 
 def on_off( v , scale ):
     output = 0
