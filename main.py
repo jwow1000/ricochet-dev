@@ -120,11 +120,11 @@ def create_composition():
     for i in range(4):
       channel_num = i+1
       sequencer.send_dmx({ 
-        channel_num: 6,
+        channel_num: 0,
         channel_num + 1: 0, 
         channel_num + 2: 0
       })
-      
+
     sequencer.time_tracker += 15
     print(f"check tracker: {sequencer.time_tracker}")
 
