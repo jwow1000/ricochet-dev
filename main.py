@@ -2,6 +2,7 @@ from array import array
 from compose_utils import beats_to_ticks
 from compose_utils import line, line_strobe, peek_ad, sparkle20, two_bumps, on_off, quick_long_fade, strobe, hurricane, shaky, long_attack, line_random_strobe, long_decay, beats_to_ticks
 import time
+import heapq
 import asyncio
 from ola.ClientWrapper import ClientWrapper
 from dataclasses import dataclass
@@ -10,6 +11,7 @@ from typing import List, Callable
 @dataclass
 class DMXSequencer:
     def __init__(self):
+        self.event_queue = []
         self.current_tick = 0
         self.ticks_per_second = 50  # 20ms per tick
         self.composition_length = 12000  # 4 minutes at 50 ticks/second
@@ -41,21 +43,25 @@ class DMXSequencer:
         tick: when to trigger the event
         channels: dict of {channel: value}
         """
-        self.events.append((tick, channels))
-
-    #Async system with precise timing
+        heapq.heappush(self.event_queue, (tick, channels))
+        
+    # Async system with precise timing
     async def run_async(self):
-        # print_it = FANCY_PRINT()
         while True:
             tick_start = time.time()
 
-            # Find and execute all events for current tick
-            for event_tick, channels in self.events:
-                if event_tick == self.current_tick:
+            # Process and execute events for the current tick
+            while self.event_queue:
+                next_tick, channels = self.event_queue[0]  # Peek at the next event
+
+                if next_tick == self.current_tick:
+                    # Execute the event and remove it from the queue
+                    heapq.heappop(self.event_queue)
                     self.send_dmx(channels)
                     print(f"{self.current_tick}: {channels}")
-                    # print_it.update( channels )
-
+                elif next_tick > self.current_tick:
+                    # Stop processing if the next event is for a future tick
+                    break
 
             # Increment tick and wrap around
             self.current_tick = (self.current_tick + 1) % self.composition_length
@@ -64,6 +70,28 @@ class DMXSequencer:
             elapsed = time.time() - tick_start
             sleep_time = max(0, (1/self.ticks_per_second) - elapsed)
             await asyncio.sleep(sleep_time)
+
+    # #Async system with precise timing
+    # async def run_async(self):
+    #     # print_it = FANCY_PRINT()
+    #     while True:
+    #         tick_start = time.time()
+
+    #         # Find and execute all events for current tick
+    #         for event_tick, channels in self.events:
+    #             if event_tick == self.current_tick:
+    #                 self.send_dmx(channels)
+    #                 print(f"{self.current_tick}: {channels}")
+    #                 # print_it.update( channels )
+
+
+    #         # Increment tick and wrap around
+    #         self.current_tick = (self.current_tick + 1) % self.composition_length
+
+    #         # Calculate precise sleep time
+    #         elapsed = time.time() - tick_start
+    #         sleep_time = max(0, (1/self.ticks_per_second) - elapsed)
+    #         await asyncio.sleep(sleep_time)
 
 # Example usage with easy-to-read composition definition
 def create_composition():
