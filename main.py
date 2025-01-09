@@ -1,5 +1,5 @@
 from array import array
-from utils import FANCY_PRINT
+from compose_utils import beats_to_ticks
 from compose_utils import line, line_strobe, peek_ad, sparkle20, two_bumps, on_off, quick_long_fade, strobe, hurricane, shaky, long_attack, line_random_strobe, long_decay, beats_to_ticks
 import time
 import asyncio
