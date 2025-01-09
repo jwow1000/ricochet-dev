@@ -12,6 +12,7 @@ from typing import List, Callable
 class DMXSequencer:
     ticks_per_second: int = 50
     composition_length: int = 12000
+    event_counter: int = 0  # Add an event counter
     universe: int = 1
     data: array = field(default_factory=lambda: array('B', [0] * 512))
     events: list = field(default_factory=list)
@@ -42,7 +43,8 @@ class DMXSequencer:
         raise ConnectionError(f"Failed to connect to DMX after {max_retries} attempts. Last error: {last_error}")
 
     def add_event(self, tick, channels):
-        heapq.heappush(self.events, (tick, channels))
+        self.event_counter += 1  # Increment the counter
+        heapq.heappush(self.events, (tick, self.event_counter, channels))
 
     def send_dmx(self, channels):
         for channel, value in channels.items():
