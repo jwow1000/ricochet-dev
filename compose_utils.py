@@ -133,7 +133,7 @@ def long_decay( v ):
 
 # long decay 255
 def long_decay_chill( v ):
-  return math.pow( (1 - v) * 0.2, 6)
+  return math.pow( (1 - v) * 0.5, 6)
 
 
 # random strobe
