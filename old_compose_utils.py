@@ -11,41 +11,32 @@ def beats_to_ticks(beats, bpm=90):
 # root line function, use algo callback function
 def line( seq, beats, offset, algo, channel ):
     channel_num = ((channel-1)*3)+1
-    ticks = beats_to_ticks( beats )
+    ticks = beats_to_ticks(beats)
     offset_ticks = beats_to_ticks( offset )
-    print(f"offset ticks: {offset_ticks}")
-    print(f"offset ticks: {offset_ticks}, {channel}, {offset}")
+    seq.add_event((offset_ticks, {channel_num + 1: 0})) #include counter as 0 for the off state
     step = 1 / (ticks-1)
-    # turn on light (strobe on) and then control brightness
-    seq.add_event( offset_ticks, {channel_num + 1: 0})
-    for i in range( ticks ):
-        math = algo( i * step )
-        ramp = min( max(math * 255, 0), 255)
-        seq.add_event(
-            i + offset_ticks,
-            { channel_num: int(ramp)}
-        )
-
+    for i in range(ticks):
+        math = algo(i * step)
+        ramp = min(max(math * 255, 0), 255)
+        seq.add_event((i + offset_ticks, i+1, {channel_num: int(ramp)})) #include a counter that increments for each event
 # root line function but for strobe, no need for continuous ticks
-def line_strobe( seq, beats, offset, channel, bright, rate, dur):
-  channel_num = ((channel-1)*3)+1
-  ticks = beats_to_ticks( beats )
-  offset_ticks = beats_to_ticks( offset )
+def line_strobe(seq, beats, offset, channel, bright, rate, dur):
+    channel_num = ((channel - 1) * 3) + 1
+    ticks = beats_to_ticks(beats)
+    offset_ticks = beats_to_ticks(offset)
 
-  # turn on light (strobe on) and then control brightness
-  seq.add_event( offset_ticks, {
-      channel_num: bright,
-      channel_num + 1: rate, 
-      channel_num + 2: dur
-  })
-  # turn off light, and strobe, next effect will turn on
-  seq.add_event( offset_ticks + ticks, {
-      channel_num: 0,
-      channel_num + 1: 6, 
-
-  })
-
-
+    # turn on light (strobe on) and then control brightness
+    seq.add_event((offset_ticks, seq.event_counter + 1, { #add counter
+        channel_num: bright,
+        channel_num + 1: rate,
+        channel_num + 2: dur
+    }))
+    # turn off light, and strobe, next effect will turn on
+    seq.add_event((offset_ticks + ticks, seq.event_counter + 2, { #add counter
+        channel_num: 0,
+        channel_num + 1: 6,
+    }))
+ 
 # # # # # # algos to use with the line function
 # simple fastest attack possible, with linear out (use for test)
 def linear_ad( v ):
@@ -58,7 +49,7 @@ def peek_ad( v ):
     elif v > 0 :
         # ramp down
         return 0.2 - (v * 0.2) 
-
+    
 # random twinkle, 20% or 0%
 # this may need more work with the lifetime etc...
 def sparkle20( v ):
@@ -76,7 +67,7 @@ def on_off( v , scale ):
         norm = (v - 0.4999) * 2
         output = 1 - norm
     return output * scale
-
+    
 # two bumps, just an absoluted sine
 def two_bumps( v ):
     sine = math.sin( v * (math.pi*2) )
@@ -130,31 +121,30 @@ def long_attack( v ):
 # long decay 255
 def long_decay( v ):
   return math.pow( 1 - v, 6)
-
-
+  
 # random strobe
-def line_random_strobe( seq, beats, offset, channel, bright, rate, dur, noise):
-  channel_num = ((channel-1)*3)+1
-  ticks = beats_to_ticks( beats )
-  offset_ticks = beats_to_ticks( offset )
+def line_random_strobe(seq, beats, offset, channel, bright, rate, dur, noise):
+    channel_num = ((channel - 1) * 3) + 1
+    ticks = beats_to_ticks(beats)
+    offset_ticks = beats_to_ticks(offset)
 
-  for i in range( ticks-1 ):
-      rand = random.randint(0,100)
-      if rand > noise:
-        # turn on light (strobe on) and then control brightness
-        seq.add_event( offset_ticks + i, {
-            channel_num: bright,
-            channel_num + 1: rate, 
-            channel_num + 2: dur
-        })
-      else:
-        # turn off light
-        seq.add_event( offset_ticks + i, {
-            channel_num: 0,
-        })
+    for i in range(ticks - 1):
+        rand = random.randint(0, 100)
+        if rand > noise:
+            # turn on light (strobe on) and then control brightness
+            seq.add_event((offset_ticks + i, seq.event_counter + i + 1, { #add counter
+                channel_num: bright,
+                channel_num + 1: rate,
+                channel_num + 2: dur
+            }))
+        else:
+            # turn off light
+            seq.add_event((offset_ticks + i, seq.event_counter + i + 1, { #add counter
+                channel_num: 0,
+            }))
 
-  # end the effect
-  seq.add_event( offset_ticks + ticks, {
-      channel_num: 0,
-      channel_num + 1: 6
-    })
+    # end the effect
+    seq.add_event((offset_ticks + ticks, seq.event_counter + ticks, { #add counter
+        channel_num: 0,
+        channel_num + 1: 6
+    }))
