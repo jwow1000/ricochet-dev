@@ -270,3 +270,4 @@ if __name__ == "__main__":
     # 2. Time-based:
     # sequencer.run_time_based()
     # 3. Async:
+    asyncio.run(sequencer.run_async())
