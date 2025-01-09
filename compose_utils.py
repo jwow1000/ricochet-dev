@@ -13,7 +13,7 @@ def line( seq, beats, offset, algo, channel ):
     channel_num = ((channel-1)*3)+1
     ticks = beats_to_ticks(beats, seq.ticks_per_second)
     offset_ticks = int(offset * seq.ticks_per_second)
-    seq.add_event((offset_ticks, 0, {channel_num + 1: 0})) #include counter as 0 for the off state
+    seq.add_event((offset_ticks, {channel_num + 1: 0})) #include counter as 0 for the off state
     step = 1 / (ticks-1)
     for i in range(ticks):
         math = algo(i * step)
