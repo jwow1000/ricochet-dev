@@ -115,6 +115,13 @@ def create_composition():
     
     
     ########### begin composition ############
+    ####### hurricane calm for a while "chill mode"
+    for j in range(12):
+      for i in range(4):
+          line(sequencer, 16, sequencer.time_tracker+(i), hurricane, (i+1))
+      sequencer.time_tracker += 28
+
+      
     #### all off for 10 seconds( 15 beats )
     # make sure all are off
     for i in range(4):
