@@ -107,11 +107,11 @@ def create_composition():
     # variable for on_off intensity
     tri_brightness = 0.0
     ######### begin jeremy test #######
-    line(sequencer, 21, sequencer.time_tracker, long_decay, 1) 
-    sequencer.time_tracker += 21
+    # line(sequencer, 21, sequencer.time_tracker, long_decay, 1) 
+    # sequencer.time_tracker += 21
 
-    line(sequencer, 18, sequencer.time_tracker, sparkle20, 1)
-    sequencer.time_tracker += 18
+    # line(sequencer, 18, sequencer.time_tracker, sparkle20, 1)
+    # sequencer.time_tracker += 18
     
     
     ########### begin composition ############
