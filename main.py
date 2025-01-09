@@ -30,7 +30,7 @@ class DMXSequencer:
             try:
                 wrapper = ClientWrapper()
                 client = wrapper.Client()
-                if client.SendDmx(self.universe, bytearray([0] * 512)):
+                if client.SendDmx(self.universe, bytes([0] * 512)):
                     print(f"Successfully connected to DMX on attempt {retry_count + 1}")
                     return wrapper, client
             except Exception as e:
@@ -47,7 +47,7 @@ class DMXSequencer:
     def send_dmx(self, channels):
         for channel, value in channels.items():
             self.data[channel - 1] = value
-        self.client.SendDmx(self.universe, self.data, self.dmx_sent)
+        self.client.SendDmx(self.universe, bytes(self.data), self.dmx_sent)
 
     def dmx_sent(self, state):
         if not state.Succeeded():
