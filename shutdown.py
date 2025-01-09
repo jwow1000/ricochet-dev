@@ -63,7 +63,7 @@ class DMXSequencer:
                     # Execute the event and remove it from the queue
                     heapq.heappop(self.event_queue)
                     self.send_dmx(channels)
-                    print(f"{self.current_tick}: {channels} {cue}")
+                    # print(f"{self.current_tick}: {channels} {cue}")
                 elif next_tick > self.current_tick:
                     # Stop processing if the next event is for a future tick
                     break
