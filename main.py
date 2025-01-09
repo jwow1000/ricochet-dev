@@ -115,8 +115,8 @@ def create_composition():
     
     
     ########### begin composition ############
-    ####### hurricane calm for a while "chill mode"
-    for j in range(12):
+    ####### hurricane calm for a while "chill mode" 10-15 minutes
+    for j in range(50):
       for i in range(4):
           line(sequencer, 21, sequencer.time_tracker, long_decay_chill, (i+1))
       sequencer.time_tracker += 21
@@ -133,7 +133,7 @@ def create_composition():
       })
 
     sequencer.time_tracker += 15
-    print(f"check tracker: {sequencer.time_tracker}")
+    # print(f"check tracker: {sequencer.time_tracker}")
 
     ##### see peek cycle 14 seconds(21 beats) 
     line(sequencer, 3, sequencer.time_tracker, peek_ad, 1)
