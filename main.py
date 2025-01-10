@@ -61,7 +61,7 @@ class DMXSequencer:
                     # Execute the event and remove it from the queue
                     heapq.heappop(self.event_queue)
                     self.send_dmx(channels)
-                
+                    # print(f"event: ${channels}")
                 elif next_tick > self.current_tick:
                     # Stop processing if the next event is for a future tick
                     break
@@ -71,7 +71,7 @@ class DMXSequencer:
 
             # Check if the composition loop has completed
             if self.current_tick >= self.composition_length:
-                # print("Composition loop complete. Resetting...")
+                print("Composition loop complete. Resetting...")
                 self.reset_composition()  # Call the reset method
 
 
