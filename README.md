@@ -1,6 +1,8 @@
-OLA powered DMX Light Composition on a Raspberry Pi.
-Project 'Ricochet' by Jesus Hilario-Reyes.
-Engineering by Jeremy Wiles-Young.
+# OLA powered DMX Light Composition on a Raspberry Pi.
+
+## Project 'Ricochet' by Jesus Hilario-Reyes.
+
+## Engineering by Jeremy Wiles-Young.
 
 A python structure to run lighting compositions in real time.
 
